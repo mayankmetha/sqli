@@ -22,7 +22,7 @@ def initDB():
     global conn, db, c
     connectDB(db)
     c = conn.cursor()
-    query("CREATE TABLE users (userid text,passwd text)")
+    query("CREATE TABLE users (userid varchar unique primary key,passwd varchar)")
     query("INSERT INTO users VALUES ('mayank','mayank')")
     closeDB()
 
@@ -31,4 +31,6 @@ def execute(args):
     connectDB(db)
     c = conn.cursor()
     query(args)
-    closeDB()
+    tmp = c.fetchone()
+    c.close()
+    return tmp
