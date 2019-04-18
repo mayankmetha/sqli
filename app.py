@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import init
 import logger
 import os
 import database
@@ -35,7 +36,12 @@ def sqli1(usrnam,passwd):
             print(logger.cross(),logger.msg('Login failed'))
     except:
         print(logger.cross(),logger.msg('Login failed'))
-    
+
+if not os.path.isfile('demo.db'):
+    init.main()
+else:
+    print(logger.tick(),logger.level(1),logger.sep(),logger.msg('Database Creation'),end='\n')
+
 level = [{
     'type': 'list',
     'name': 'lvl',
