@@ -20,7 +20,10 @@ def level(x):
         return colored("Failed   ",'yellow',attrs=['bold'])
 
 def sep():
-    return colored(':','white',attrs=['bold'])
+    return colored(' : ','white',attrs=['bold'])
 
 def msg(args):
-    return colored(args,'blue',attrs=['bold'])
+    return colored(args,'cyan',attrs=['bold'])
+
+def heading(args):
+    return colored(args,'white',attrs=['bold','underline'])
