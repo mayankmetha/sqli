@@ -34,3 +34,12 @@ def execute(args):
     tmp = c.fetchone()
     c.close()
     return tmp
+
+def executeParameter(args,parameters):
+    global conn, db,c
+    connectDB(db)
+    c = conn.cursor()
+    c.execute(args,parameters)
+    tmp = c.fetchone()
+    c.close()
+    return tmp

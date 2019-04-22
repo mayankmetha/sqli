@@ -41,19 +41,45 @@ def basic(usrnam,passwd):
 def whitelist(usrnam,passwd):
     query = "SELECT * FROM users where userid = '"+str(usrnam)+"' and passwd='"+str(passwd)+"'"
     try:
-        if database.execute(query) is not None and re.findall('^\w$',passwd) and re.findall('^\w$',usrnam): 
+        if database.execute(query) is not None and re.findall(r'^\w$',passwd) and re.findall(r'^\w$',usrnam): 
             print(logger.tick(),logger.msg('Login successful'))
-            print(usrnam, passwd)
         else:
             print(logger.cross(),logger.msg('Login failed'))
     except:
         print(logger.cross(),logger.msg('Login failed'))
 
-def blacklist():
-    return
+def blacklist(usrnam,passwd):
+    bFile = open('blacklist','r')
+    blacklist = [_.strip() for _ in bFile.readlines()]
+    query = "SELECT * FROM users where userid = '"+str(usrnam)+"' and passwd='"+str(passwd)+"'"
+    flag = 0
+    for _ in usrnam.split(' '):
+        if _ in blacklist:
+            flag = 1
+    for _ in passwd.split(' '):
+        if _ in blacklist:
+            flag = 1
+    if flag == 1:
+        print(logger.cross(),logger.msg('Login failed'))
+    else:
+        try:
+            if database.execute(query) is not None :
+                print(logger.tick(),logger.msg('Login successful'))
+            else:
+                print(logger.cross(),logger.msg('Login failed'))
+        except:
+            print(logger.cross(),logger.msg('Login failed'))
 
-def parametrizied():
-    return
+def parametrizied(usrnam,passwd):
+    query = "SELECT * FROM users where userid = ? and passwd= ?"
+    args = (usrnam,passwd)
+    try:
+        if database.executeParameter(query,args) is not None:
+            print(logger.tick(),logger.msg('Login successful'))
+        else:
+            print(logger.cross(),logger.msg('Login failed'))
+    except:
+        print(logger.cross(),logger.msg('Login failed'))
 
 if not os.path.isfile('demo.db'):
     init.main()
@@ -74,6 +100,6 @@ if choice == 'Basic':
 elif choice == 'Whitelist':
     whitelist(username,password)
 elif choice == 'Blacklist':
-    blacklist()
+    blacklist(username,password)
 else:
-    parametrizied()
+    parametrizied(username,password)
