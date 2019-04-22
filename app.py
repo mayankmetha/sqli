@@ -2,8 +2,9 @@
 import init
 import logger
 import os
+import re
 import database
-from PyInquirer import style_from_dict, Token,prompt
+from PyInquirer import style_from_dict, Token, prompt
 
 style = style_from_dict({
     Token.QuestionMark: '#ff9d00 bold',
@@ -27,7 +28,7 @@ def loginForm():
     answers = prompt(questions,style=style)
     return(answers['username'],answers['password'])
 
-def sqli1(usrnam,passwd):
+def basic(usrnam,passwd):
     query = "SELECT * FROM users where userid = '"+str(usrnam)+"' and passwd='"+str(passwd)+"'"
     try:
         if database.execute(query) is not None:
@@ -36,6 +37,23 @@ def sqli1(usrnam,passwd):
             print(logger.cross(),logger.msg('Login failed'))
     except:
         print(logger.cross(),logger.msg('Login failed'))
+
+def whitelist(usrnam,passwd):
+    query = "SELECT * FROM users where userid = '"+str(usrnam)+"' and passwd='"+str(passwd)+"'"
+    try:
+        if database.execute(query) is not None and re.findall('^\w$',passwd) and re.findall('^\w$',usrnam): 
+            print(logger.tick(),logger.msg('Login successful'))
+            print(usrnam, passwd)
+        else:
+            print(logger.cross(),logger.msg('Login failed'))
+    except:
+        print(logger.cross(),logger.msg('Login failed'))
+
+def blacklist():
+    return
+
+def parametrizied():
+    return
 
 if not os.path.isfile('demo.db'):
     init.main()
@@ -52,4 +70,10 @@ choice = prompt(level,style=style)['lvl']
 username, password = loginForm()
 
 if choice == 'Basic':
-    sqli1(username,password)
+    basic(username,password)
+elif choice == 'Whitelist':
+    whitelist(username,password)
+elif choice == 'Blacklist':
+    blacklist()
+else:
+    parametrizied()
