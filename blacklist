@@ -3,6 +3,16 @@ _
 '
 --
 "
+*/
+/*
+#
+[
+]
+(
+)
+{
+}
+$
 add
 all
 alter
@@ -13,6 +23,7 @@ backup
 between
 bin
 binary
+blob
 by
 case
 cast
@@ -33,6 +44,7 @@ exec
 exists
 foreign
 from
+glob
 groupby
 having
 if
