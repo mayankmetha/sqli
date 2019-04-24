@@ -40,8 +40,11 @@ def basic(usrnam,passwd):
 
 def whitelist(usrnam,passwd):
     query = "SELECT * FROM users where userid = '"+str(usrnam)+"' and passwd='"+str(passwd)+"'"
+    flag = 0
+    if re.findall(r'^[A-Za-z0-9]+$',passwd) and re.findall(r'^[A-Za-z0-9]+$',usrnam):
+        flag = 1
     try:
-        if database.execute(query) is not None and re.findall(r'^[A-Za-z0-9]+$',passwd) and re.findall(r'^[A-Za-z0-9]+$',usrnam): 
+        if flag == 0 and database.execute(query) is not None: 
             print(logger.tick(),logger.msg('Login successful'))
         else:
             print(logger.cross(),logger.msg('Login failed'))
