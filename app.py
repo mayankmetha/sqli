@@ -56,10 +56,10 @@ def blacklist(usrnam,passwd):
     blacklist = [_.strip() for _ in bFile.readlines()]
     query = "SELECT * FROM users where userid = '"+str(usrnam)+"' and passwd='"+str(passwd)+"'"
     flag = 0
-    for _ in usrnam.split(' '):
+    for _ in usrnam.replace("\\","").split(' '):
         if _ in blacklist:
             flag = 1
-    for _ in passwd.split(' '):
+    for _ in passwd.replace("\\","").split(' '):
         if _ in blacklist:
             flag = 1
     if flag == 1:
