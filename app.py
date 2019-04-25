@@ -44,7 +44,7 @@ def whitelist(usrnam,passwd):
     if re.findall(r'^[A-Za-z0-9]+$',passwd) and re.findall(r'^[A-Za-z0-9]+$',usrnam):
         flag = 1
     try:
-        if flag == 0 and database.execute(query) is not None: 
+        if flag == 1 and database.execute(query) is not None: 
             print(logger.tick(),logger.msg('Login successful'))
         else:
             print(logger.cross(),logger.msg('Login failed'))
